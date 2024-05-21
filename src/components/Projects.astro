@@ -5,10 +5,22 @@ import Link from "./icons/Link.astro";
 import LinkButton from "./LinkButton.astro";
 import ChakraUI from "./icons/ChakraUI.astro";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import Trpc from "./icons/Trpc.astro";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const TAGS = {
+interface Tag {
+  name: string;
+  class: string;
+  icon: any;
+  fill?: string;
+}
+
+interface Tags {
+  [key: string]: Tag;
+}
+
+const TAGS: Tags = {
   NEXT: {
     name: "Next.js",
     class: "bg-black text-white",
@@ -21,8 +33,15 @@ const TAGS = {
   },
   CHAKRAUI: {
     name: "Chakra UI",
-    class: "bg-[#319795] text-white",
+    class: "bg-[#125150] text-white",
+    fill: "#319795",
     icon: ChakraUI,
+  },
+  TRPC: {
+    name: "tRPC",
+    class: "bg-[#003d6b] text-white",
+    fill: "#398ccb",
+    icon: Trpc,
   },
 };
 const PROJECTS = [
@@ -31,14 +50,14 @@ const PROJECTS = [
     description: t("projects.joinver.description"),
     link: "https://joinver.com/",
     image: "/projects/joinver.webp",
-    tags: [TAGS.NEXT, TAGS.CHAKRAUI],
+    tags: [TAGS.NEXT, TAGS.CHAKRAUI, TAGS.TRPC],
   },
   {
     title: t("projects.panel6c.title"),
     description:
       "A CRM platform with advanced table functionalities and filters for managing real estate properties. Made from scratch with Next.js, React, tRPC and Tailwind CSS.",
     image: "/projects/equipo6c.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [TAGS.NEXT, TAGS.TAILWIND, TAGS.TRPC],
   },
 ];
 ---
@@ -51,6 +70,8 @@ const PROJECTS = [
           <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
             <img
               alt={title}
+              width="475"
+              height="270"
               class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105"
               loading="lazy"
               src={image}
@@ -69,7 +90,7 @@ const PROJECTS = [
                   <span
                     class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2 `}
                   >
-                    <tag.icon class="size-4" />
+                    <tag.icon class="size-4" fill={tag.fill} />
                     {tag.name}
                   </span>
                 </li>
