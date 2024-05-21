@@ -1,0 +1,19 @@
+---
+import { getLangFromUrl } from "@/i18n/utils";
+import { getEntry } from "astro:content";
+import ExperienceItem from "./ExperienceItem.astro";
+const lang = getLangFromUrl(Astro.url);
+
+const allExperience = await getEntry("experience", `${lang}/experience`);
+const EXPERIENCE = allExperience.data.experience;
+---
+
+<ol class="relative mt-16">
+  {
+    EXPERIENCE.map((experience) => (
+      <li class="">
+        <ExperienceItem {...experience} />
+      </li>
+    ))
+  }
+</ol>
